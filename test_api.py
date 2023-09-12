@@ -12,7 +12,7 @@ def get_person(user_id):
 # Function to send a POST request to create a new person
 def create_person(name):
     data = {'name': name}
-    response = requests.post(base_url, params=data)
+    response = requests.post(base_url, json=data)  # Use json=data instead of params=data
     return response
 
 # Function to send a PUT request to update a person's name by ID
