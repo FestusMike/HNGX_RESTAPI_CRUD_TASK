@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 # Database Configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://root:Timi1234@localhost/hngx_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://username:password@localhost/hngx_db'
 db = SQLAlchemy(app)
 
 class Person(db.Model):
@@ -15,14 +15,19 @@ with app.app_context():
     db.create_all()
 
 @app.route('/api', methods=['GET','POST'])
-def create():
-    try:
+def create_or_list_persons():
+     if request.method == 'GET':
+        # List all persons
+        persons = Person.query.all()
+        persons_data = [{'id': person.id, 'name': person.name} for person in persons]
+        return jsonify(persons_data)
+    if request.method == 'POST':
         name = request.args.get('name')
         # Check if the name param is provided
         if not name:
             return jsonify({'error': 'Name parameter is required'}), 400
-        #check if name param is a string
-        elif not isinstance(name, str) or name.isnumeric():
+        # Check if name param is a string and not numeric
+        if not isinstance(name, str) or name.isnumeric():
             return jsonify({'error': 'Name should be a non-numeric string'}), 400
         # Check if the name already exists in the database
         existing_person = Person.query.filter_by(name=name).first()
@@ -33,10 +38,6 @@ def create():
         db.session.add(person)
         db.session.commit()
         return jsonify({'message': 'Person created successfully'}), 201
-
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
 @app.route('/api/<int:user_id>', methods=['GET'])
 def get_person(user_id):
     person = Person.query.get(user_id)
