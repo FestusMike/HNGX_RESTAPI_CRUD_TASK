@@ -1,7 +1,7 @@
 import requests
 
 # API base url
-base_url = 'http://timi1234.pythonanywhere.com/api'
+base_url = 'http://127.0.0.1:5000/api'
 
 # Function to send a GET request to retrieve a person by ID
 def get_person(user_id):
