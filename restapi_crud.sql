@@ -1,0 +1,6 @@
+CREATE DATABASE hngx_db;
+USE hngx_db;
+CREATE TABLE person(
+	id INT PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL
+);
