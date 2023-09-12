@@ -33,6 +33,7 @@ Before getting started, make sure you have the following prerequisites installed
 3.  Configure the database settings:
     Open main.py(or any python file you wish) and set the appropriate database URI, such as:
     SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://username:password@host/database_name'
+    Please Note that you will be required to input some raw SQL queries in your MySQl server. See: https://github.com/FestusMike/HNGX_RESTAPI_CRUD_TASK/blob/main/restapi_crud.sql
 
 4.  Initialize the db:
     with app.app_context():
@@ -80,4 +81,5 @@ SQL Injection: The API is designed to prevent SQL injection attacks by using SQL
 
 Authentication and Authorization: Implement user authentication and authorization to control access to the API's CRUD operations.
 
-API's Source Code: 
+API's Source Code: https://github.com/FestusMike/HNGX_RESTAPI_CRUD_TASK/blob/main/main.py
+API test Source code: https://github.com/FestusMike/HNGX_RESTAPI_CRUD_TASK/blob/main/test_api.py

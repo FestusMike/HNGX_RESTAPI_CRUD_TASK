@@ -53,7 +53,7 @@ This documentation provides details on how to use the Flask API for managing a d
     ```json
     {
       "id": 1,
-      "name": "John"
+      "name": "Micheal"
     }
     ```
   - Error (HTTP 404):
@@ -187,5 +187,8 @@ Set environment variables for sensitive configuration data.
 Deploy the code to the server.
 Configure any necessary web server (e.g., Nginx, Apache) or WSGI server (e.g., Gunicorn) to serve the Flask application.
 Consult your server hosting provider's documentation for specific deployment instructions.
+
+API's Source Code: https://github.com/FestusMike/HNGX_RESTAPI_CRUD_TASK/blob/main/main.py
+API test Source code: https://github.com/FestusMike/HNGX_RESTAPI_CRUD_TASK/blob/main/test_api.py
 
 
