@@ -32,14 +32,14 @@ if __name__ == '__main__':
     # Test the CRUD operations
     try:
         # Create a new person
-        create_response = create_person("Micheal")
+        create_response = create_person("John")
         print("Create Response:", create_response.json())
 
         # Get the ID of the newly created person
         person_id = create_response.json().get('message').split()[-1]
 
         # Update the person's name
-        update_response = update_person(person_id, "Updated Micheal")
+        update_response = update_person(person_id, "Updated John")
         print("Update Response:", update_response.json())
 
         # Get the updated person by ID
@@ -50,7 +50,7 @@ if __name__ == '__main__':
         delete_response = delete_person(person_id)
         print("Delete Response:", delete_response.json())
 
-        # Attempt to get the deleted person (will return return a 404 error)
+        # Attempt to get the deleted person (should return a 404 error)
         get_response_after_delete = get_person(person_id)
         print("Get Response After Delete:", get_response_after_delete.json())
 

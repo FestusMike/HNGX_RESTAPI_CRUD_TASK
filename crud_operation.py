@@ -2,9 +2,18 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-
+app.config['DEBUG'] = True
 # Database Configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://root:Timi1234@localhost/hngx_db'
+SQLALCHEMY_DATABASE_URI = "mysql+mysqldb://{username}:{password}@{hostname}/{databasename}".format(
+    username="Timi1234",
+    password="Longman1234",
+    hostname="Timi1234.mysql.pythonanywhere-services.com",
+    databasename="Timi1234$hngx_db"
+)
+app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
+app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
 db = SQLAlchemy(app)
 
 class Person(db.Model):
@@ -14,21 +23,23 @@ class Person(db.Model):
 with app.app_context():
     db.create_all()
 
-@app.route('/api', methods=['GET','POST'])
-def create():
+@app.route('/api', methods=['POST'])
+def create_person():
     try:
         name = request.args.get('name')
-        # Check if the name param is provided
+
+        # Check if the name parameter is provided and is a string
         if not name:
-            return jsonify({'error': 'Name parameter is required'}), 400
-        #check if name param is a string
+            return jsonify({'error': 'Name query parameter is required'}), 400
         elif not isinstance(name, str) or name.isnumeric():
             return jsonify({'error': 'Name should be a non-numeric string'}), 400
+
         # Check if the name already exists in the database
         existing_person = Person.query.filter_by(name=name).first()
         if existing_person:
             return jsonify({'error': 'Name already exists in the database'}), 400
-        # If the name is unique, create a new person
+
+        # If the name is unique and not numeric, create a new person
         person = Person(name=name)
         db.session.add(person)
         db.session.commit()
@@ -36,7 +47,7 @@ def create():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
+   
 @app.route('/api/<int:user_id>', methods=['GET'])
 def get_person(user_id):
     person = Person.query.get(user_id)
